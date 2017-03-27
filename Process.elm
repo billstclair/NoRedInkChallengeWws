@@ -38,10 +38,6 @@ segregateLoop typer questions res =
             in
                 segregateLoop typer tail <| Dict.insert typ qs res
 
-haveEqualStrands : Question -> Question -> Bool
-haveEqualStrands q1 q2
-    q1.strandId == q2.strandId
-
 chooser : Int -> (Question -> comparable) -> List Question
 chooser count typer =
     let dict = segregate typer
@@ -75,15 +71,25 @@ chooserLoop count dict res lists =
                                     <| List.append rest [rqs]
                             
 
+haveEqualStrands : Question -> Question -> Bool
+haveEqualStrands q1 q2
+    q1.strandId == q2.strandId
+
 chooseEqualStrands : SequenceMaker
 chooseEqualStrands count =
     chooser count haveEqualStrands
 
+haveEqualStandards : Question -> Question -> Bool
+haveEqualStandards q1 q2 =
+    (haveEqualStrands q1 q2)
+    && (q1.standardId == q2.standardId)
+
 chooseEqualStandards : SequenceMaker
 chooseEqualStandards count =
-    questions
+    chooser count haveEqualStandards
 
+-- The way I did it, this one isn't any different
 chooseEqualQuestions : SequenceMaker
 chooseEqualQuestions count =
-    questions
+    chooseEqualStandards count
 
