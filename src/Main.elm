@@ -79,10 +79,14 @@ view model =
               [ text stylesheet ]
         , h1 [] [ text "NoRedInk Programming Challenge" ]
         , p [ class "centered" ]
-            [ text "I got Process.elm computing the lists of questions, but I didn't get to querying for the count and printing the answers. That would have been a benefit of a command line app, instead of a full Elm app."
-              text
-                  <| "Process.chooseEqualStandards 10 -> " ++
-                      (List.map .questionId <| chooseEqualStandards 10)
+            [ text
+                  <| "chooseEqualStrands 10 -> " ++
+                  (toString <| List.map .questionId <| chooseEqualStrands 10)
+            ]
+        , p [ class "centered" ]
+            [ text
+                  <| "chooseEqualStandards 10 -> " ++
+                  (toString <| List.map .questionId <| chooseEqualStandards 10)
             ]
         ]
 

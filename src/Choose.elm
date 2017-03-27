@@ -59,7 +59,7 @@ chooserLoop count dict res lists =
             [] -> res           -- won't happen unless data is empty
             (typ, qs) :: rest ->
                 case qs of
-                    Nothing -> res --can't happen
+                    [] -> res --can't happen
                     q :: rqs ->
                         case rqs of
                             [] ->
@@ -69,28 +69,28 @@ chooserLoop count dict res lists =
                                     Just rqs2 ->
                                         chooserLoop (count-1) dict
                                             (q :: res)
-                                            <| List.append rest [rqs2]
+                                            <| List.append rest [(typ, rqs2)]
                             _ ->
                                 chooserLoop (count-1) dict
                                     (q :: res)
-                                    <| List.append rest [rqs]
+                                    <| List.append rest [(typ, rqs)]
                             
 
-haveEqualStrands : Question -> comparable
-haveEqualStrands q =
-    (q.strandId)
+equalStrandsType : Question -> Int
+equalStrandsType q =
+    q.strandId
 
 chooseEqualStrands : SequenceMaker
 chooseEqualStrands count =
-    chooser count haveEqualStrands
+    chooser count equalStrandsType
 
-haveEqualStandards : Question -> comparable
-haveEqualStandards q =
+equalStandardsType : Question -> (Int, Int)
+equalStandardsType q =
     (q.strandId, q.standardId)
 
 chooseEqualStandards : SequenceMaker
 chooseEqualStandards count =
-    chooser count haveEqualStandards
+    chooser count equalStandardsType
 
 -- The way I did it, this one isn't any different
 chooseEqualQuestions : SequenceMaker
