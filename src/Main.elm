@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------
 --
--- NoRedInkChallengeWws.elm
+-- Main.elm
 -- A solution for NoRedInk's two-hour programming challenge.
 -- Copyright (c) 2017 Bill St. Clair <billstclair@gmail.com>
 -- Some rights reserved.
@@ -12,7 +12,7 @@
 --
 ----------------------------------------------------------------------
 
-module NoRedInkChallengeWws exposing (..)
+module Main exposing (..)
 
 import Stylesheet exposing ( stylesheet )
 

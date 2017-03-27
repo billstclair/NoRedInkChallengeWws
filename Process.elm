@@ -44,11 +44,36 @@ haveEqualStrands q1 q2
 
 chooser : Int -> (Question -> comparable) -> List Question
 chooser count typer =
-    chooserLoop count [] <| segregate typer
+    let dict = segregate typer
+        lists = Dict.toList dict
+    in
+        chooserLoop count [] lists dict
 
-chooserLoop : Int -> List Question -> List (comparable, List Question) -> Dict comparable (List Question) -> List Question
-chooserLoop count res dict =
-    
+chooserLoop : Int -> Dict comparable (List Question)-> List Question -> List (comparable, List Question) -> List Question
+chooserLoop count dict res lists =
+    if count <= 0 then
+        res
+    else
+        case lists of
+            [] -> res           -- won't happen unless data is empty
+            (typ, qs) :: rest ->
+                case qs of
+                    Nothing -> res --can't happen
+                    q :: rqs ->
+                        case rqs of
+                            [] ->
+                                case Dict.get typ dict of
+                                    Nothing ->
+                                        res --can't happen
+                                    Just rqs2 ->
+                                        chooserLoop (count-1) dict
+                                            (q :: res)
+                                            <| List.append rest [rqs2]
+                            _ ->
+                                chooserLoop (count-1) dict
+                                    (q :: res)
+                                    <| List.append rest [rqs]
+                            
 
 chooseEqualStrands : SequenceMaker
 chooseEqualStrands count =
