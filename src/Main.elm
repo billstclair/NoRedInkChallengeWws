@@ -15,6 +15,11 @@
 module Main exposing (..)
 
 import Stylesheet exposing ( stylesheet )
+import Data exposing ( Question )
+import Choose exposing ( chooseEqualStrands
+                        , chooseEqualStandards
+                        , chooseEqualQuestions
+                        )
 
 import Html exposing ( Html, Attribute
                      , div, span, p, text, a, h1, h2, h3
@@ -42,7 +47,7 @@ type alias Model =
 
 initialModel : Model
 initialModel =
-    { text = "Hello, Elm World!"
+    { text = "Hello, Elm!"
     }
 
 init : ( Model, Cmd Msg )
@@ -74,7 +79,11 @@ view model =
               [ text stylesheet ]
         , h1 [] [ text "NoRedInk Programming Challenge" ]
         , p [ class "centered" ]
-            [ text <| model.text ]
+            [ text "I got Process.elm computing the lists of questions, but I didn't get to querying for the count and printing the answers. That would have been a benefit of a command line app, instead of a full Elm app."
+              text
+                  <| "Process.chooseEqualStandards 10 -> " ++
+                      (List.map .questionId <| chooseEqualStandards 10)
+            ]
         ]
 
     

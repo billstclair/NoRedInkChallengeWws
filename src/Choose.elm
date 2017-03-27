@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------
 --
--- Process.elm
+-- Choose.elm
 -- Data processing for NoRedInk's two-hour programming challenge.
 -- Copyright (c) 2017 Bill St. Clair <billstclair@gmail.com>
 -- Some rights reserved.
@@ -9,8 +9,10 @@
 --
 ----------------------------------------------------------------------
 
-module Process exposing ( Sequence, SequenceMaker
-                        , equalStrands, equalStandards, equalQuestions
+module Choose exposing ( Sequence, SequenceMaker
+                       , chooseEqualStrands
+                       , chooseEqualStandards
+                       , chooseEqualQuestions
                         )
 
 import Data exposing ( Question, questions )
@@ -46,7 +48,7 @@ chooser count typer =
     let dict = segregate typer
         lists = Dict.toList dict
     in
-        chooserLoop count [] lists dict
+        chooserLoop count dict [] lists
 
 chooserLoop : Int -> Dict comparable (List Question)-> List Question -> List (comparable, List Question) -> List Question
 chooserLoop count dict res lists =
@@ -74,18 +76,17 @@ chooserLoop count dict res lists =
                                     <| List.append rest [rqs]
                             
 
-haveEqualStrands : Question -> Question -> Bool
-haveEqualStrands q1 q2
-    q1.strandId == q2.strandId
+haveEqualStrands : Question -> comparable
+haveEqualStrands q =
+    (q.strandId)
 
 chooseEqualStrands : SequenceMaker
 chooseEqualStrands count =
     chooser count haveEqualStrands
 
-haveEqualStandards : Question -> Question -> Bool
-haveEqualStandards q1 q2 =
-    (haveEqualStrands q1 q2)
-    && (q1.standardId == q2.standardId)
+haveEqualStandards : Question -> comparable
+haveEqualStandards q =
+    (q.strandId, q.standardId)
 
 chooseEqualStandards : SequenceMaker
 chooseEqualStandards count =
