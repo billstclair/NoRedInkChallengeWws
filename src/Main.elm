@@ -72,22 +72,34 @@ update msg model =
 style_ : List (Attribute msg) -> List (Html msg) -> Html msg
 style_ = Html.node "style"
 
+questionCount : Int
+questionCount =
+    20
+
+renderOneRun : Int -> List (String, (Int -> List Question)) -> List (Html msg)
+renderOneRun count namesAndFuns =
+    List.map
+        (\(name, fun) ->
+            let qs = List.map .questionId <| fun count
+            in
+                p [ class "centered" ]
+                    [ text <| name ++ " " ++ (toString count)
+                          ++ " => " ++ (toString qs)
+                    ]
+        )
+        namesAndFuns
+
 view : Model -> Html Msg
 view model =
     div []
         [ style_ [ type_ "text/css" ]
               [ text stylesheet ]
         , h1 [] [ text "NoRedInk Programming Challenge" ]
-        , p [ class "centered" ]
-            [ text
-                  <| "chooseEqualStrands 10 -> " ++
-                  (toString <| List.map .questionId <| chooseEqualStrands 10)
-            ]
-        , p [ class "centered" ]
-            [ text
-                  <| "chooseEqualStandards 10 -> " ++
-                  (toString <| List.map .questionId <| chooseEqualStandards 10)
-            ]
+        , div []
+            <| renderOneRun questionCount
+                [ ("chooseEqualStrands", chooseEqualStrands)
+                , ("chooseEqualStandards", chooseEqualStandards)
+                ]
         ]
 
     
