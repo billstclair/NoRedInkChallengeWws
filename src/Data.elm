@@ -9,7 +9,7 @@
 --
 ----------------------------------------------------------------------
 
-module Data exposing ( Question, Usage, questions, usage )
+module Data exposing ( Question, Usage, emptyQuestion, questions, usage )
 
 -- If there's time, parse the CSV files. For now, just enter the data.
 
@@ -21,6 +21,16 @@ type alias Question =
     , standardName : String
     , questionId : Int
     , difficulty : Float
+    }
+
+emptyQuestion : Question
+emptyQuestion =
+    { strandId = 0
+    , strandName = ""
+    , standardId = 0
+    , standardName = ""
+    , questionId = 0
+    , difficulty = 0.0
     }
 
 -- Emacs keyboard macros rock!
