@@ -67,7 +67,7 @@ questionsLoop getter questions dict =
 -- random values from 0.0 to 1.0, at this level.
 chooser : Int -> List (Question -> Int) -> List Question
 chooser count getters =
-    let qlist = log "segregate" <| segregate getters
+    let qlist = segregate getters
     in
         chooserLoop count qlist []
 
@@ -87,7 +87,7 @@ pickOne ql =
             case qs of
                 [] ->
                     if allqs == [] then
-                        (emptyQuestion, ql) --again, no questions
+                        (emptyQuestion, ql) --Can't happen unless no questions
                     else
                         pickOne <| LeafList (allqs, allqs)
                 q :: qtail ->
@@ -102,7 +102,7 @@ pickOne ql =
                 n :: ntail ->
                     let (q, n2) = pickOne n
                     in
-                        (q, NodeList (n2 :: ntail, allns))
+                        (q, NodeList (List.append ntail [n2], allns))
 
 chooseEqualStrands : SequenceMaker
 chooseEqualStrands count =
